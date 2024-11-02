@@ -1,0 +1,15 @@
+﻿<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:HomePantry"
+             xmlns:converters="clr-namespace:HomePantry.Conventers"
+             x:Class="HomePantry.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <Color x:Key="PrimaryColor">#272e45</Color>
+            <Color x:Key="SecondaryColor">#d8d1ba</Color>
+            <Color x:Key="BackgroundColor">#d8d1ba</Color>
+            <Color x:Key="TextColor">#000000</Color>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

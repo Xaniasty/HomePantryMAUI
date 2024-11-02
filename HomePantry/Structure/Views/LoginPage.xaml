@@ -1,0 +1,29 @@
+<ContentPage
+    x:Class="HomePantry.Structure.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Home Pantry">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="infopicture.png"
+                     Command="{Binding infoIconCommand}" />
+        <ToolbarItem IconImageSource="qrscanimage.png"
+                     Command="{Binding qrScanCommand}" />
+        <ToolbarItem IconImageSource="profilepicture.png"
+                     Command="{Binding profileCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout BackgroundColor="{DynamicResource BackgroundColor}" Padding="30">
+        <Image Source="homepantrylogo.png" HorizontalOptions="Center"/>
+        <Label Text="Logowanie" TextColor="{DynamicResource PrimaryColor}" FontSize="32" HorizontalOptions="Center"/>
+        <Entry Placeholder="Login lub Email" Text="{Binding EmailOrLogin}"/>
+        <Entry Placeholder="Hasło" IsPassword="True" Text="{Binding Password}"/>
+        <Button Text="Zaloguj się" Command="{Binding LoginCommand}" BackgroundColor="{DynamicResource PrimaryColor}"/>
+
+
+        <Label Text="{Binding ErrorMessage}" 
+               TextColor="Red" 
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
+
+    </StackLayout>
+</ContentPage>
