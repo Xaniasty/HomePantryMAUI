@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using HomePantry.Structure.Views;
-using Microsoft.Maui.Controls;
+
 
 namespace HomePantry.Structure.ViewModels
 {
@@ -12,8 +11,8 @@ namespace HomePantry.Structure.ViewModels
         private string _emailOrLogin;
         private string _password;
         private string _errorMessage;
+        private bool _isRemembered;
 
-        // Właściwość do bindowania emaila lub loginu
         public string EmailOrLogin
         {
             get => _emailOrLogin;
@@ -24,7 +23,6 @@ namespace HomePantry.Structure.ViewModels
             }
         }
 
-        // Właściwość do bindowania hasła
         public string Password
         {
             get => _password;
@@ -35,7 +33,6 @@ namespace HomePantry.Structure.ViewModels
             }
         }
 
-        // Właściwość do wyświetlania błędów
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -46,7 +43,16 @@ namespace HomePantry.Structure.ViewModels
             }
         }
 
-        // Komenda do logowania
+        public bool IsRemembered 
+        {
+            get => _isRemembered;
+            set
+            {
+                _isRemembered = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand LoginCommand { get; }
 
         private readonly ApiService _apiService;
@@ -55,25 +61,44 @@ namespace HomePantry.Structure.ViewModels
         {
             _apiService = new ApiService();
             LoginCommand = new Command(async () => await ExecuteLoginCommand());
+
+            IsRemembered = Preferences.Get("IsRemembered", false);
+            if (IsRemembered)
+            {
+                EmailOrLogin = Preferences.Get("EmailOrLogin", string.Empty);
+                Password = Preferences.Get("Password", string.Empty);
+            }
         }
 
-        // Metoda logowania
         private async Task ExecuteLoginCommand()
         {
-            ErrorMessage = ""; // Resetowanie błędów przed nową próbą
+            ErrorMessage = "";
             var isSuccess = await _apiService.LoginAsync(EmailOrLogin, Password);
             if (isSuccess)
             {
-                // Logika przejścia do strony głównej
-                Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+                
+                if (IsRemembered)
+                {
+                    Preferences.Set("IsRemembered", true);
+                    Preferences.Set("EmailOrLogin", EmailOrLogin);
+                    Preferences.Set("Password", Password);
+                }
+                else
+                {
+                    
+                    Preferences.Set("IsRemembered", false);
+                    Preferences.Set("EmailOrLogin", string.Empty);
+                    Preferences.Set("Password", string.Empty);
+                }
+
+                await Application.Current.MainPage.Navigation.PushAsync(new HomePage());
             }
             else
             {
-                ErrorMessage = "Błędne hasło lub login."; // Ustawienie komunikatu o błędzie
+                ErrorMessage = "Błędne hasło lub login.";
             }
         }
 
-        // Implementacja INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

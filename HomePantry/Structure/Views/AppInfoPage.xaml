@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HomePantry.Structure.Views.AppInfoPage"
+             Title="AppInfoPage">
+    <StackLayout BackgroundColor="{DynamicResource SecondaryColor}">
+        <Image x:Name="ClickableImage"
+               Source="appinfologo_on.png" 
+               WidthRequest="400" 
+               HeightRequest="400" 
+               Aspect="AspectFit">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ToggleLight"/>
+            </Image.GestureRecognizers>
+        </Image>
+        <Label Text="Aplikacja do zarządzania domowymi zasobami. Stworzona przez studenta POLSL w ramach projektu inżynierskiego." 
+               TextColor="Black"
+               HorizontalOptions="Start" 
+               VerticalOptions="Center" 
+               Margin="10,0,0,0" />
+    </StackLayout>
+</ContentPage>

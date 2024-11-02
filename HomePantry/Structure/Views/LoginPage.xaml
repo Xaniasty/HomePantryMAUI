@@ -2,23 +2,62 @@
     x:Class="HomePantry.Structure.Views.LoginPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:HomePantry.Structure.Views"
     Title="Home Pantry">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="infopicture.png"
-                     Command="{Binding infoIconCommand}" />
-        <ToolbarItem IconImageSource="qrscanimage.png"
-                     Command="{Binding qrScanCommand}" />
-        <ToolbarItem IconImageSource="profilepicture.png"
-                     Command="{Binding profileCommand}" />
+                     Clicked="OnInfoIconClicked" />
     </ContentPage.ToolbarItems>
 
     <StackLayout BackgroundColor="{DynamicResource BackgroundColor}" Padding="30">
         <Image Source="homepantrylogo.png" HorizontalOptions="Center"/>
         <Label Text="Logowanie" TextColor="{DynamicResource PrimaryColor}" FontSize="32" HorizontalOptions="Center"/>
-        <Entry Placeholder="Login lub Email" Text="{Binding EmailOrLogin}"/>
-        <Entry Placeholder="Hasło" IsPassword="True" Text="{Binding Password}"/>
+        <Entry x:Name ="LoginEntry" Placeholder="Login lub Email" Text="{Binding EmailOrLogin}"/>
+        <Entry x:Name ="PasswordEntry" Placeholder="Hasło" IsPassword="True" Text="{Binding Password}"/>
         <Button Text="Zaloguj się" Command="{Binding LoginCommand}" BackgroundColor="{DynamicResource PrimaryColor}"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <CheckBox x:Name="RememberMeCheckBox"
+              IsChecked="{Binding IsRemembered}" 
+              HorizontalOptions="Start" 
+              Grid.Row="0"/>
+
+            <Label Text="Zapamiętaj login i hasło"
+           VerticalOptions="Center"
+           HorizontalOptions="Start" 
+           Grid.Column="1"
+           Grid.Row="0"/>
+
+            <CheckBox x:Name="TermsAndPolicyCheckBox"
+               IsChecked="{Binding IsAccepted}" 
+               HorizontalOptions="Start" 
+               Grid.Row="1"/>
+
+            <Label Text="Zapoznałem się z regulaminem"
+           VerticalOptions="Center"
+           HorizontalOptions="Start" 
+           Grid.Column="1"
+           Grid.Row="1"/>
+        </Grid>
+
+        <Label Text="Nie możesz się zalogować? Utwórz konto tutaj!"
+               HorizontalOptions="Start"
+               FontAttributes="Bold">   
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCreateAccountTapped" />
+            </Label.GestureRecognizers>
+        </Label>
 
 
         <Label Text="{Binding ErrorMessage}" 
