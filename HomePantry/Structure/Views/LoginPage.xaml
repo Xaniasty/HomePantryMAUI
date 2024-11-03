@@ -51,7 +51,7 @@
            Grid.Row="1"/>
         </Grid>
 
-        <Label Text="Nie możesz się zalogować? Utwórz konto tutaj!"
+        <Label Text="Nie masz jeszcze konta? Utwórz je tutaj!"
                HorizontalOptions="Start"
                FontAttributes="Bold">   
             <Label.GestureRecognizers>

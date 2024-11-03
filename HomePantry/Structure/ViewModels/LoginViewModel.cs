@@ -12,6 +12,7 @@ namespace HomePantry.Structure.ViewModels
         private string _password;
         private string _errorMessage;
         private bool _isRemembered;
+        private bool _isAccepted;
 
         public string EmailOrLogin
         {
@@ -53,6 +54,16 @@ namespace HomePantry.Structure.ViewModels
             }
         }
 
+        public bool IsAccepted
+        {
+            get => _isAccepted;
+            set
+            {
+                _isAccepted = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand LoginCommand { get; }
 
         private readonly ApiService _apiService;
@@ -72,6 +83,13 @@ namespace HomePantry.Structure.ViewModels
 
         private async Task ExecuteLoginCommand()
         {
+
+            if (!IsAccepted)
+            {
+                ErrorMessage = "Musisz zaakceptować regulamin, aby się zalogować.";
+                return;
+            }
+
             ErrorMessage = "";
             var isSuccess = await _apiService.LoginAsync(EmailOrLogin, Password);
             if (isSuccess)

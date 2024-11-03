@@ -9,6 +9,7 @@ namespace HomePantry.Structure.Views
         public LoginPage()
         {
             InitializeComponent();
+
             BindingContext = new LoginViewModel();
 
             if (!string.IsNullOrEmpty(App.lastLoginEmail))
