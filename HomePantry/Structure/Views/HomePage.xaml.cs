@@ -7,6 +7,9 @@ namespace HomePantry.Structure.Views
         public HomePage()
         {
             InitializeComponent();
+            BindingContext = this;
         }
+
+
     }
 }

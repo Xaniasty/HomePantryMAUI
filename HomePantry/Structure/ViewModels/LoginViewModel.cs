@@ -2,7 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using HomePantry.Structure.Views;
-
+using Microsoft.Maui.Storage;
+using System.Threading.Tasks;
 
 namespace HomePantry.Structure.ViewModels
 {
@@ -44,7 +45,7 @@ namespace HomePantry.Structure.ViewModels
             }
         }
 
-        public bool IsRemembered 
+        public bool IsRemembered
         {
             get => _isRemembered;
             set
@@ -74,6 +75,8 @@ namespace HomePantry.Structure.ViewModels
             LoginCommand = new Command(async () => await ExecuteLoginCommand());
 
             IsRemembered = Preferences.Get("IsRemembered", false);
+            IsAccepted = Preferences.Get("IsAccepted", false);
+
             if (IsRemembered)
             {
                 EmailOrLogin = Preferences.Get("EmailOrLogin", string.Empty);
@@ -83,7 +86,6 @@ namespace HomePantry.Structure.ViewModels
 
         private async Task ExecuteLoginCommand()
         {
-
             if (!IsAccepted)
             {
                 ErrorMessage = "Musisz zaakceptować regulamin, aby się zalogować.";
@@ -95,6 +97,8 @@ namespace HomePantry.Structure.ViewModels
             if (isSuccess)
             {
                 
+                Preferences.Set("IsAccepted", IsAccepted);
+
                 if (IsRemembered)
                 {
                     Preferences.Set("IsRemembered", true);
@@ -103,13 +107,14 @@ namespace HomePantry.Structure.ViewModels
                 }
                 else
                 {
-                    
                     Preferences.Set("IsRemembered", false);
                     Preferences.Set("EmailOrLogin", string.Empty);
                     Preferences.Set("Password", string.Empty);
                 }
 
-                await Application.Current.MainPage.Navigation.PushAsync(new HomePage());
+
+                (Application.Current as App)?.NavigateToAppShell();
+                
             }
             else
             {

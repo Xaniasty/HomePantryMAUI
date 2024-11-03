@@ -3,14 +3,16 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:HomePantry.Structure.Views"
-    Title="Home Pantry">
+    BackgroundColor="{DynamicResource BackgroundColor}">
 
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="infopicture.png"
                      Clicked="OnInfoIconClicked" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout BackgroundColor="{DynamicResource BackgroundColor}" Padding="30">
+    <ScrollView>
+    <StackLayout Margin="30">
         <Image Source="homepantrylogo.png" HorizontalOptions="Center"/>
         <Label Text="Logowanie" TextColor="{DynamicResource PrimaryColor}" FontSize="32" HorizontalOptions="Center"/>
         <Entry x:Name ="LoginEntry" Placeholder="Login lub Email" Text="{Binding EmailOrLogin}"/>
@@ -44,19 +46,37 @@
                HorizontalOptions="Start" 
                Grid.Row="1"/>
 
-            <Label Text="Zapoznałem się z regulaminem"
-           VerticalOptions="Center"
-           HorizontalOptions="Start" 
-           Grid.Column="1"
-           Grid.Row="1"/>
+            <Label Grid.Column="1"
+           Grid.Row="1">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Zapoznałem się z regulaminem użytkowania oraz polityką prywatności " />
+                        <Span Text="(kliknij tutaj)" 
+                      TextColor="Black" 
+                      FontAttributes="Bold">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPolicyClicked" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
         </Grid>
 
-        <Label Text="Nie masz jeszcze konta? Utwórz je tutaj!"
-               HorizontalOptions="Start"
-               FontAttributes="Bold">   
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnCreateAccountTapped" />
-            </Label.GestureRecognizers>
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Nie masz jeszcze konta? "  FontAttributes="Bold" TextColor="Black"/>
+                    <Span Text="Utwórz je tutaj!" 
+                  TextColor="green" 
+                  FontAttributes="Bold">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCreateAccountTapped" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
         </Label>
 
 
@@ -65,4 +85,5 @@
                IsVisible="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
 
     </StackLayout>
+    </ScrollView>
 </ContentPage>
