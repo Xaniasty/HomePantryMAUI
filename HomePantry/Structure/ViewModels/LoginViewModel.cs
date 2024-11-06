@@ -4,6 +4,7 @@ using System.Windows.Input;
 using HomePantry.Structure.Views;
 using Microsoft.Maui.Storage;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace HomePantry.Structure.ViewModels
 {
@@ -93,8 +94,10 @@ namespace HomePantry.Structure.ViewModels
             }
 
             ErrorMessage = "";
-            var isSuccess = await _apiService.LoginAsync(EmailOrLogin, Password);
-            if (isSuccess)
+            var user = await _apiService.LoginAsync(EmailOrLogin, Password);
+            
+
+            if (user != null)
             {
                 
                 Preferences.Set("IsAccepted", IsAccepted);
@@ -112,9 +115,9 @@ namespace HomePantry.Structure.ViewModels
                     Preferences.Set("Password", string.Empty);
                 }
 
+                App.user = user;
 
                 (Application.Current as App)?.NavigateToAppShell();
-                
             }
             else
             {

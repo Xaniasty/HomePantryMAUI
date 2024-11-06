@@ -20,7 +20,7 @@ public class ApiService
         };
     }
 
-    public async Task<bool> LoginAsync(string emailOrLogin, string password)
+    public async Task<User?> LoginAsync(string emailOrLogin, string password)
     {
         var loginRequest = new LoginRequest
         {
@@ -28,7 +28,7 @@ public class ApiService
             Password = password
         };
 
-        Debug.WriteLine($"Attempting to log in with EmailOrLogin: {emailOrLogin} and Password: {password}");
+        Debug.WriteLine($"Attempting to log in with EmailOrLogin: {emailOrLogin}");
 
         try
         {
@@ -37,19 +37,20 @@ public class ApiService
 
             if (response.IsSuccessStatusCode)
             {
-                return true;
+                var user = await response.Content.ReadFromJsonAsync<User>();
+                return user;
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine($"Error response: {errorContent}");
-                return false;
+                return null;
             }
         }
         catch (HttpRequestException ex)
         {
             Debug.WriteLine($"Wystąpił błąd podczas łączenia z API: {ex.Message}");
-            return false;
+            return null;
         }
     }
 
@@ -78,5 +79,61 @@ public class ApiService
             return false; 
         }
     }
+
+
+    public async Task<List<Granary>> GetGranariesForUserAsync(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"api/Granary/{userId}");
+            Debug.WriteLine($"Response status: {response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var granaries = await response.Content.ReadFromJsonAsync<List<Granary>>();
+                return granaries;
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Error response: {errorContent}");
+                return new List<Granary>();
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Wystąpił błąd podczas łączenia z API: {ex.Message}");
+            return new List<Granary>();
+        }
+    }
+
+
+    public async Task<List<Shoplist>> GetShoplistsForUserAsync(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"api/Shoplist/{userId}");
+            Debug.WriteLine($"Response status: {response.StatusCode}");
+            
+
+            if (response.IsSuccessStatusCode)
+            {
+                var shoplists = await response.Content.ReadFromJsonAsync<List<Shoplist>>();
+                return shoplists;
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Error response: {errorContent}");
+                return new List<Shoplist>();
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Wystąpił błąd podczas łączenia z API: {ex.Message}");
+            return new List<Shoplist>();
+        }
+    }
+
 
 }

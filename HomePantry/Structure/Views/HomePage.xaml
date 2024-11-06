@@ -1,13 +1,54 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HomePantry.Structure.Views.HomePage"
-             Title="Home"
-             Background="{DynamicResource SecondaryColor}">
+             Title="Użytkownik" BackgroundColor="{DynamicResource BackgroundColor}">
 
-    <StackLayout>
-        <Label Text="Witaj w Home Pantry!" 
-               VerticalOptions="CenterAndExpand" 
-               HorizontalOptions="CenterAndExpand" />
+    <StackLayout Padding="0" Margin="0">
+        <Frame Margin="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
+           BackgroundColor="{DynamicResource SecondaryColor}" 
+           BorderColor="{DynamicResource PrimaryColor}" 
+           CornerRadius="20">
+            <ListView x:Name="GranaryListView" RowHeight="80" ItemsSource="{Binding CurrentItemsSource}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding DisplayName}" 
+                           FontSize="20"
+                           Grid.Column="0" 
+                           VerticalOptions="Center" />
+                                <Label Text="{Binding Opis}" 
+                           FontSize="14" 
+                           TextColor="Gray" 
+                           Grid.Column="2" 
+                           VerticalOptions="Center" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Frame>
+
+        <Frame Margin="30" BackgroundColor="{DynamicResource SecondaryColor}" CornerRadius="10" VerticalOptions="End" Padding="0">
+            <Grid Margin="0" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button Text="Granaries" Command="{Binding ShowGranariesCommand}" Grid.Column="0" />
+                <Button Text="Shoplist" Command="{Binding ShowShoplistCommand}" Grid.Column="2"/>
+                <Button Text="TasksToDo" Command="{Binding ShowTasksCommand}" Grid.Column="4"/>
+            </Grid>
+        </Frame>
     </StackLayout>
 </ContentPage>

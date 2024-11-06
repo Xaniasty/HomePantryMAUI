@@ -1,10 +1,9 @@
-﻿using HomePantry.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace HomePantry.Models
 {
-    public class Shoplist
+    public class Shoplist : IDisplayContainers
     {
         public int Id { get; set; }
 
@@ -17,8 +16,11 @@ namespace HomePantry.Models
         public DateTime? DataAktualizacji { get; set; }
 
         public string? Opis { get; set; }
+
         public virtual ICollection<ProductsInShoplist> ProductsInShoplists { get; set; } = new List<ProductsInShoplist>();
 
         public virtual User? User { get; set; }
+
+        public string DisplayName => ShoplistName; 
     }
 }

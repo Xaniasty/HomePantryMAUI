@@ -7,7 +7,7 @@ namespace HomePantry.Models
     [Table("Users")]
     public class User
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [EmailAddress]

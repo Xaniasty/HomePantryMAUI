@@ -1,4 +1,5 @@
-﻿using HomePantry.Structure.Views;
+﻿using HomePantry.Models;
+using HomePantry.Structure.Views;
 using System.Diagnostics;
 
 namespace HomePantry
@@ -6,6 +7,7 @@ namespace HomePantry
     public partial class App : Application
     {
         public static string? lastLoginEmail { get; set; }
+        public static User user { get; set; }
         public App()
         {
             InitializeComponent();

@@ -33,7 +33,6 @@ namespace HomePantry.Structure.Views
 
         private async void OnLoginSuccess()
         {
-            // Ustaw now¹ stronê jako HomePage po pomyœlnym logowaniu
             await Navigation.PushAsync(new HomePage());
         }
 

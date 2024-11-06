@@ -1,11 +1,10 @@
-﻿using HomePantry.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HomePantry.Models
 {
-    public class Granary
+    public class Granary : IDisplayContainers
     {
         public int Id { get; set; }
 
@@ -21,8 +20,11 @@ namespace HomePantry.Models
         public DateTime? DataAktualizacji { get; set; }
 
         public string? Opis { get; set; }
+
         public virtual ICollection<ProductsInGranary> ProductsInGranaries { get; set; } = new List<ProductsInGranary>();
 
         public virtual User? User { get; set; }
+
+        public string DisplayName => GranaryName;
     }
 }
