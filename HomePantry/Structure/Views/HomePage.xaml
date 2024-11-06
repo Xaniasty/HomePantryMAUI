@@ -3,19 +3,26 @@
              x:Class="HomePantry.Structure.Views.HomePage"
              Title="Użytkownik" BackgroundColor="{DynamicResource BackgroundColor}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="plusicon.png"/>
+        <ToolbarItem IconImageSource="trashbinicon.png"/>
+
+
+    </ContentPage.ToolbarItems>
+
     <StackLayout Padding="0" Margin="0">
         <Frame Margin="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
            BackgroundColor="{DynamicResource SecondaryColor}" 
            BorderColor="{DynamicResource PrimaryColor}" 
            CornerRadius="20">
-            <ListView x:Name="GranaryListView" RowHeight="80" ItemsSource="{Binding CurrentItemsSource}">
+            <ListView x:Name="GranaryListView" IsGroupingEnabled="False"  RowHeight="80" ItemsSource="{Binding CurrentItemsSource}" SeparatorColor="{DynamicResource SecondaryColor}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid Padding="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="2" />
+                                    <ColumnDefinition Width="4" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
@@ -35,20 +42,20 @@
             </ListView>
         </Frame>
 
-        <Frame Margin="30" BackgroundColor="{DynamicResource SecondaryColor}" CornerRadius="10" VerticalOptions="End" Padding="0">
-            <Grid Margin="0" HorizontalOptions="Center">
+        
+            <Grid Margin="20" HorizontalOptions="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width= "95" />
+                    <ColumnDefinition Width="35" />
+                    <ColumnDefinition Width="95" />
+                    <ColumnDefinition Width="35" />
+                    <ColumnDefinition Width="95" />
                 </Grid.ColumnDefinitions>
 
-                <Button Text="Granaries" Command="{Binding ShowGranariesCommand}" Grid.Column="0" />
-                <Button Text="Shoplist" Command="{Binding ShowShoplistCommand}" Grid.Column="2"/>
-                <Button Text="TasksToDo" Command="{Binding ShowTasksCommand}" Grid.Column="4"/>
+                <Button Text="Granaries" Command="{Binding ShowGranariesCommand}" Grid.Column="0"  HeightRequest="50"  CornerRadius="15"  BorderColor="Grey" BackgroundColor="{DynamicResource PrimaryColor}"/>
+                <Button Text="Shoplist" Command="{Binding ShowShoplistCommand}" Grid.Column="2"  HeightRequest="50"  CornerRadius="15"  BorderColor="Grey" BackgroundColor="{DynamicResource PrimaryColor}"/>
+                <Button Text="Tasks" Command="{Binding ShowTasksCommand}" Grid.Column="4"  HeightRequest="50"  CornerRadius="15"  BorderColor="Grey" BackgroundColor="{DynamicResource PrimaryColor}"/>
             </Grid>
-        </Frame>
+        
     </StackLayout>
 </ContentPage>

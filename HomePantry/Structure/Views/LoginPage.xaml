@@ -17,7 +17,7 @@
         <Label Text="Logowanie" TextColor="{DynamicResource PrimaryColor}" FontSize="32" HorizontalOptions="Center"/>
         <Entry x:Name ="LoginEntry" Placeholder="Login lub Email" Text="{Binding EmailOrLogin}"/>
         <Entry x:Name ="PasswordEntry" Placeholder="Hasło" IsPassword="True" Text="{Binding Password}"/>
-        <Button Text="Zaloguj się" Command="{Binding LoginCommand}" BackgroundColor="{DynamicResource PrimaryColor}"/>
+            <Button Text="Zaloguj się" Command="{Binding LoginCommand}" BackgroundColor="{DynamicResource PrimaryColor}" CornerRadius="15"  BorderColor="Grey" HeightRequest="50"/>
 
         <Grid>
             <Grid.ColumnDefinitions>
