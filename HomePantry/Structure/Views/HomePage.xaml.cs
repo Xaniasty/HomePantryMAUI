@@ -16,6 +16,17 @@ namespace HomePantry.Structure.Views
             BindingContext = _viewModel;
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            // Odœwie¿anie listy po powrocie do widoku
+            if (BindingContext is UserViewModel viewModel)
+            {
+                viewModel.RefreshCurrentItemsSource(); // Wywo³aj metodê odœwie¿ania w ViewModelu
+            }
+        }
+
 
     }
 }

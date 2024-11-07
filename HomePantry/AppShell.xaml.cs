@@ -8,6 +8,7 @@ namespace HomePantry
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(FormPage), typeof(FormPage));
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)

@@ -9,6 +9,7 @@ public class ApiService
 {
     private readonly HttpClient _httpClient;
 
+
     public ApiService()
     {
         HttpClientHandler handler = new HttpClientHandler();
@@ -134,6 +135,92 @@ public class ApiService
             return new List<Shoplist>();
         }
     }
+
+    public async Task<bool> CreateGranaryAsync(Granary granary)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Granary", granary);
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Błąd przy tworzeniu magazynu: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteGranaryAsync(int granaryId)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/Granary/{granaryId}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Błąd przy usuwaniu magazynu: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> CreateShoplistAsync(Shoplist shoplist)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Shoplist", shoplist);
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Błąd przy tworzeniu listy zakupów: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteShoplistAsync(int shoplistId)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/Shoplist/{shoplistId}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Błąd przy usuwaniu listy zakupów: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateGranaryAsync(Granary granary)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/Granary/{granary.Id}", granary);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error updating granary: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateShoplistAsync(Shoplist shoplist)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/Shoplist/{shoplist.Id}", shoplist);
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Błąd przy edytowaniu listy zakupów: {ex.Message}");
+            return false;
+        }
+    }
+
+
 
 
 }

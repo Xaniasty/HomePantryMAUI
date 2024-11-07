@@ -7,15 +7,29 @@ using HomePantry.Models;
 using HomePantry;
 using System.Diagnostics;
 using System.Linq;
+using HomePantry.Structure.Views;
+using Newtonsoft.Json;
+
 
 public class UserViewModel : INotifyPropertyChanged
 {
     private ObservableCollection<Granary> _granaries;
     private ObservableCollection<Shoplist> _shoplists;
     private IEnumerable<IDisplayContainers> _currentItemsSource;
-
+    private IDisplayContainers _selectedItem;
     private int? _userId;
+    private readonly ApiService _apiService;
 
+
+    public IDisplayContainers SelectedItem
+    {
+        get => _selectedItem;
+        set
+        {
+            _selectedItem = value;
+            OnPropertyChanged();
+        }
+    }
     public int? UserId
     {
         get => _userId;
@@ -56,51 +70,161 @@ public class UserViewModel : INotifyPropertyChanged
         }
     }
 
-    private readonly ApiService _apiService;
+    public enum ViewType
+    {
+        Granary,
+        Shoplist,
+        ToDoTasks
+    }
+
+    public ViewType CurrentViewType { get; set; }
 
     public ICommand ShowGranariesCommand { get; }
     public ICommand ShowShoplistCommand { get; }
     public ICommand ShowTasksCommand { get; }
+    public ICommand AddCommand { get; }
+    public ICommand DeleteCommand { get; }
+    public ICommand EditCommand { get; }
 
     public UserViewModel()
     {
         _apiService = new ApiService();
         UserId = App.user.Id;
-        ShowGranariesCommand = new Command(LoadGranaries);
-        ShowShoplistCommand = new Command(LoadShoplist);
+
+        ShowGranariesCommand = new Command(() => LoadItems(ViewType.Granary));
+        ShowShoplistCommand = new Command(() => LoadItems(ViewType.Shoplist));
         ShowTasksCommand = new Command(LoadTasks);
 
-        LoadGranaries();
+        AddCommand = new Command(AddItem);
+        DeleteCommand = new Command<IDisplayContainers>(DeleteItem);
+        EditCommand = new Command<IDisplayContainers>(EditItem);
+
+        CurrentViewType = ViewType.Granary;
+        LoadItems(CurrentViewType);
     }
 
-    private async void LoadGranaries()
+    private async void LoadItems(ViewType viewType)
     {
-        var granaries = await _apiService.GetGranariesForUserAsync(UserId.Value);
-        GranariesItems = new ObservableCollection<Granary>(granaries);
-        CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
-    }
+        CurrentViewType = viewType;
 
-    private async void LoadShoplist()
-    {
-        var shoplists = await _apiService.GetShoplistsForUserAsync(UserId.Value);
-        ShoplistItems = new ObservableCollection<Shoplist>(shoplists);
-        CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>(); 
+        if (viewType == ViewType.Granary)
+        {
+            var granaries = await _apiService.GetGranariesForUserAsync(UserId.Value);
+            GranariesItems = new ObservableCollection<Granary>(granaries);
+            CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
+        }
+        else if (viewType == ViewType.Shoplist)
+        {
+            var shoplists = await _apiService.GetShoplistsForUserAsync(UserId.Value);
+            ShoplistItems = new ObservableCollection<Shoplist>(shoplists);
+            CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
+        }
     }
 
     private void LoadTasks()
     {
+        CurrentViewType = ViewType.ToDoTasks;
+
         CurrentItemsSource = new List<IDisplayContainers>
         {
             new Granary { GranaryName = "Zadanie 1", Opis = "Opis zadania 1" },
             new Granary { GranaryName = "Zadanie 2", Opis = "Opis zadania 2" },
             new Granary { GranaryName = "Zadanie 3", Opis = "Opis zadania 3" },
-            new Granary { GranaryName = "Zadanie 4", Opis = "Opis zadania 4" },
-            new Granary { GranaryName = "Zadanie 5", Opis = "Opis zadania 5" },
-            new Granary { GranaryName = "Zadanie 6", Opis = "Opis zadania 6" },
-            new Granary { GranaryName = "Zadanie 99999999999", Opis = "Opis zadania 99999999999" },
         };
+    }
 
-        CurrentItemsSource = CurrentItemsSource.Cast<IDisplayContainers>();
+    private async void AddItem()
+    {
+        if (CurrentViewType == ViewType.Granary)
+        {
+            var newGranary = new Granary { GranaryName = "Nowy Magazyn", UserId = UserId.Value, Opis = "Opis magazynu" };
+            var success = await _apiService.CreateGranaryAsync(newGranary);
+            if (success)
+            {
+                GranariesItems.Add(newGranary);
+                CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
+            }
+        }
+        else if (CurrentViewType == ViewType.Shoplist)
+        {
+            var newShoplist = new Shoplist { ShoplistName = "Nowa Lista Zakupów", UserId = UserId.Value, Opis = "Opis listy" };
+            var success = await _apiService.CreateShoplistAsync(newShoplist);
+            if (success)
+            {
+                ShoplistItems.Add(newShoplist);
+                CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
+            }
+        }
+    }
+
+    private async void DeleteItem(IDisplayContainers item)
+    {
+        if (item == null)
+        {
+            Debug.WriteLine("DeleteItem: item is null");
+            return;
+        }
+
+        if (CurrentViewType == ViewType.Granary && item is Granary granary)
+        {
+            var success = await _apiService.DeleteGranaryAsync(granary.Id);
+            if (success)
+            {
+                GranariesItems.Remove(granary);
+                CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
+            }
+        }
+        else if (CurrentViewType == ViewType.Shoplist && item is Shoplist shoplist)
+        {
+            var success = await _apiService.DeleteShoplistAsync(shoplist.Id);
+            if (success)
+            {
+                ShoplistItems.Remove(shoplist);
+                CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
+            }
+        }
+    }
+
+    private async void EditItem(IDisplayContainers item)
+    {
+        if (item == null)
+        {
+            Debug.WriteLine("EditItem: item is null");
+            return;
+        }
+
+        if (CurrentViewType == ViewType.Granary && item is Granary granary)
+        {
+            // Przekazanie całego obiektu z `Id` do `FormPage`
+            await Shell.Current.GoToAsync($"{nameof(FormPage)}?granary={Uri.EscapeDataString(JsonConvert.SerializeObject(granary))}");
+        }
+        else if (CurrentViewType == ViewType.Shoplist && item is Shoplist shoplist)
+        {
+            await Shell.Current.GoToAsync($"{nameof(FormPage)}?shoplist={Uri.EscapeDataString(JsonConvert.SerializeObject(shoplist))}");
+        }
+    }
+
+    public async void RefreshCurrentItemsSource()
+    {
+        // Odświeżanie listy w zależności od wybranego widoku
+        switch (CurrentViewType)
+        {
+            case ViewType.Granary:
+                var granaries = await _apiService.GetGranariesForUserAsync(UserId.Value);
+                GranariesItems = new ObservableCollection<Granary>(granaries);
+                CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
+                break;
+
+            case ViewType.Shoplist:
+                var shoplists = await _apiService.GetShoplistsForUserAsync(UserId.Value);
+                ShoplistItems = new ObservableCollection<Shoplist>(shoplists);
+                CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
+                break;
+
+            case ViewType.ToDoTasks:
+                LoadTasks(); // Jeśli masz zadania do załadowania, użyj tej metody
+                break;
+        }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
