@@ -27,6 +27,40 @@ namespace HomePantry.Structure.Views
             }
         }
 
+        private async void OnMoreOptionsClicked(object sender, EventArgs e)
+        {
+            // Wyœwietl listê opcji w ma³ym okienku
+            string action = await DisplayActionSheet("Wiêcej funkcji", "Anuluj", null,
+                                                     "Usuñ wszystko z widocznej listy",
+                                                     "Inna opcja");
+
+            // Obs³u¿ wybran¹ opcjê
+            switch (action)
+            {
+                case "Usuñ wszystko z widocznej listy":
+                    await DeleteAllItems();
+                    break;
+
+                case "Inna opcja":
+                    // Dodaj dodatkow¹ funkcjê tutaj, np. await SomeOtherFunction();
+                    break;
+            }
+        }
+
+        private async Task DeleteAllItems()
+        {
+            if (BindingContext is UserViewModel viewModel)
+            {
+                bool confirm = await DisplayAlert("Potwierdzenie", "Czy na pewno chcesz usun¹æ wszystkie elementy z widocznej listy?", "Tak", "Nie");
+                if (confirm)
+                {
+                    await viewModel.DeleteAllVisibleItems();
+                }
+            }
+        }
+
+
+
 
     }
 }

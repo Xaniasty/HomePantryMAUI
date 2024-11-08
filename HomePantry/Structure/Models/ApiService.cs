@@ -220,6 +220,34 @@ public class ApiService
         }
     }
 
+    public async Task<bool> DeleteAllGranariesForUserAsync(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/Granary/user/{userId}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Error deleting all granaries: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteAllShoplistsForUserAsync(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/Shoplist/user/{userId}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Error deleting all shoplists: {ex.Message}");
+            return false;
+        }
+    }
+
 
 
 

@@ -85,6 +85,7 @@ public class UserViewModel : INotifyPropertyChanged
     public ICommand AddCommand { get; }
     public ICommand DeleteCommand { get; }
     public ICommand EditCommand { get; }
+    public ICommand DeleteAllVisibleCommand { get; }
 
     public UserViewModel()
     {
@@ -98,6 +99,7 @@ public class UserViewModel : INotifyPropertyChanged
         AddCommand = new Command(AddItem);
         DeleteCommand = new Command<IDisplayContainers>(DeleteItem);
         EditCommand = new Command<IDisplayContainers>(EditItem);
+        DeleteAllVisibleCommand = new Command(async () => await DeleteAllVisibleItems());
 
         CurrentViewType = ViewType.Granary;
         LoadItems(CurrentViewType);
@@ -223,6 +225,24 @@ public class UserViewModel : INotifyPropertyChanged
 
             case ViewType.ToDoTasks:
                 LoadTasks(); // Jeśli masz zadania do załadowania, użyj tej metody
+                break;
+        }
+    }
+
+    public async Task DeleteAllVisibleItems()
+    {
+        switch (CurrentViewType)
+        {
+            case ViewType.Granary:
+                await _apiService.DeleteAllGranariesForUserAsync(UserId.Value);
+                GranariesItems.Clear();
+                CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
+                break;
+
+            case ViewType.Shoplist:
+                await _apiService.DeleteAllShoplistsForUserAsync(UserId.Value);
+                ShoplistItems.Clear();
+                CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
                 break;
         }
     }
