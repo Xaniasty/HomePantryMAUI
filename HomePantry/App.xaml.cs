@@ -24,12 +24,12 @@ namespace HomePantry
 
             var navigationPage = new NavigationPage(loginPage)
             {
-                BarBackground = primaryColor, 
+                BarBackground = primaryColor,
                 BarTextColor = secondaryColor
             };
             navigationPage.BarBackgroundColor = primaryColor;
             navigationPage.BarTextColor = secondaryColor;
-            
+
 
 
             return navigationPage;

@@ -87,6 +87,8 @@ public class UserViewModel : INotifyPropertyChanged
     public ICommand EditCommand { get; }
     public ICommand DeleteAllVisibleCommand { get; }
 
+    public ICommand OpenContainerCommand { get; }
+
     public UserViewModel()
     {
         _apiService = new ApiService();
@@ -95,14 +97,28 @@ public class UserViewModel : INotifyPropertyChanged
         ShowGranariesCommand = new Command(() => LoadItems(ViewType.Granary));
         ShowShoplistCommand = new Command(() => LoadItems(ViewType.Shoplist));
         ShowTasksCommand = new Command(LoadTasks);
-
         AddCommand = new Command(AddItem);
         DeleteCommand = new Command<IDisplayContainers>(DeleteItem);
         EditCommand = new Command<IDisplayContainers>(EditItem);
         DeleteAllVisibleCommand = new Command(async () => await DeleteAllVisibleItems());
+        OpenContainerCommand = new Command<IDisplayContainers>(OpenContainerDetails);
 
         CurrentViewType = ViewType.Granary;
         LoadItems(CurrentViewType);
+    }
+
+    private async void OpenContainerDetails(IDisplayContainers container)
+    {
+        if (container is Granary granary)
+        {
+            // Nawigacja do ContainerDetailsPage dla Granary
+            await Shell.Current.GoToAsync($"{nameof(ContainerDetailsPage)}?granaryId={granary.Id}");
+        }
+        else if (container is Shoplist shoplist)
+        {
+            // Nawigacja do ContainerDetailsPage dla Shoplist
+            await Shell.Current.GoToAsync($"{nameof(ContainerDetailsPage)}?shoplistId={shoplist.Id}");
+        }
     }
 
     private async void LoadItems(ViewType viewType)
@@ -122,6 +138,7 @@ public class UserViewModel : INotifyPropertyChanged
             CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
         }
     }
+
 
     private void LoadTasks()
     {
@@ -145,6 +162,7 @@ public class UserViewModel : INotifyPropertyChanged
             {
                 GranariesItems.Add(newGranary);
                 CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
+                RefreshCurrentItemsSource();
             }
         }
         else if (CurrentViewType == ViewType.Shoplist)
@@ -155,6 +173,7 @@ public class UserViewModel : INotifyPropertyChanged
             {
                 ShoplistItems.Add(newShoplist);
                 CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
+                RefreshCurrentItemsSource();
             }
         }
     }
@@ -167,6 +186,8 @@ public class UserViewModel : INotifyPropertyChanged
             return;
         }
 
+        Debug.WriteLine($"Attempting to delete item: {item}");
+
         if (CurrentViewType == ViewType.Granary && item is Granary granary)
         {
             var success = await _apiService.DeleteGranaryAsync(granary.Id);
@@ -174,6 +195,7 @@ public class UserViewModel : INotifyPropertyChanged
             {
                 GranariesItems.Remove(granary);
                 CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
+                Debug.WriteLine("Granary item deleted successfully");
             }
         }
         else if (CurrentViewType == ViewType.Shoplist && item is Shoplist shoplist)
@@ -183,6 +205,7 @@ public class UserViewModel : INotifyPropertyChanged
             {
                 ShoplistItems.Remove(shoplist);
                 CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
+                Debug.WriteLine("Shoplist item deleted successfully");
             }
         }
     }
@@ -197,7 +220,6 @@ public class UserViewModel : INotifyPropertyChanged
 
         if (CurrentViewType == ViewType.Granary && item is Granary granary)
         {
-            // Przekazanie całego obiektu z `Id` do `FormPage`
             await Shell.Current.GoToAsync($"{nameof(FormPage)}?granary={Uri.EscapeDataString(JsonConvert.SerializeObject(granary))}");
         }
         else if (CurrentViewType == ViewType.Shoplist && item is Shoplist shoplist)
@@ -208,7 +230,6 @@ public class UserViewModel : INotifyPropertyChanged
 
     public async void RefreshCurrentItemsSource()
     {
-        // Odświeżanie listy w zależności od wybranego widoku
         switch (CurrentViewType)
         {
             case ViewType.Granary:
@@ -224,7 +245,7 @@ public class UserViewModel : INotifyPropertyChanged
                 break;
 
             case ViewType.ToDoTasks:
-                LoadTasks(); // Jeśli masz zadania do załadowania, użyj tej metody
+                LoadTasks();
                 break;
         }
     }

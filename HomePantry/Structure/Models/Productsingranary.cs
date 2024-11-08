@@ -4,18 +4,29 @@ namespace HomePantry.Models
 {
     public class ProductsInGranary
     {
-        public int Id { get; set; }
+        public int ProductId { get; set; }
 
-        [Required]
         public int GranaryId { get; set; }
 
-        [Required]
         public string ProductName { get; set; } = null!;
 
-        [Required]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; } = 1;
+
+        public bool IsLiquid { get; set; } = false;
+
+        public decimal? Weight { get; set; } = 0.01m;
 
         public string? Description { get; set; }
+
+        public bool InPackage { get; set; } = false;
+
+        public DateOnly? DataZakupu { get; set; }
+
+        public DateOnly? DataWaznosci { get; set; }
+
+        public decimal? Cena { get; set; }
+
+        public string? Rodzaj { get; set; }
 
         public virtual Granary? Granary { get; set; }
     }

@@ -1,7 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HomePantry.Structure.Views.HomePage"
-             Title="" BackgroundColor="{DynamicResource BackgroundColor}">
+             x:Class="HomePantry.Structure.Views.ContainerDetailsPage">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="addToList" IconImageSource="plusicon.png" Command="{Binding AddCommand}" />
@@ -9,20 +9,14 @@
         <ToolbarItem x:Name="delAllFromList" IconImageSource="trashbinicon.png" Text="Usuń wszystko" Command="{Binding DeleteAllVisibleCommand}" Order="Secondary" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout Padding="0" Margin="0">
-
+    <StackLayout BackgroundColor="{DynamicResource SecondaryColor}">
         <Frame Margin="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{DynamicResource SecondaryColor}" 
                BorderColor="{DynamicResource PrimaryColor}" 
-               CornerRadius="20"> 
-            <CollectionView x:Name="CurrentItemsView" 
-                    BindingContext="{Binding}" 
-                    ItemsSource="{Binding CurrentItemsSource}"
-                    SelectionMode="Single" 
-                    SelectedItem="{Binding SelectedItem}"
-                    IsGrouped="False" 
-                    ItemSizingStrategy="MeasureAllItems">
+               CornerRadius="20">
+            <CollectionView ItemsSource="{Binding ContainerItems}" SelectionMode="Single">
                 <CollectionView.ItemTemplate>
+
                     <DataTemplate>
                         <SwipeView>
                             <SwipeView.RightItems>
@@ -32,7 +26,7 @@
                                         IconImageSource="trashbinicon.png"
                                         BackgroundColor="Red" 
                                         Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference CurrentItemsView}}" 
-                                        CommandParameter="{Binding .}" />
+                                        CommandParameter="{Binding .}" />   
                                 </SwipeItems>
                             </SwipeView.RightItems>
 
@@ -43,10 +37,9 @@
                                         IconImageSource="openicon.png" 
                                         BackgroundColor="LightGoldenrodYellow" 
                                         Command="{Binding Path=BindingContext.OpenContainerCommand, Source={x:Reference CurrentItemsView}}" 
-                                        CommandParameter="{Binding .}" />
+                                        CommandParameter="{Binding .}" />       
                                 </SwipeItems>
                             </SwipeView.LeftItems>
-
                             <Grid Padding="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -54,28 +47,16 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding DisplayName}" FontSize="20" Grid.Column="0" VerticalOptions="Center" />
-                                <Label Text="{Binding Opis}" FontSize="14" TextColor="Gray" Grid.Column="2" VerticalOptions="Center" />
+                                <Grid Padding="10">
+                                    <Label Text="{Binding ProductName}" FontSize="20"/>
+                                    <Label Text="{Binding Description}" FontSize="14" TextColor="Gray"/>
+                                </Grid>
                             </Grid>
                         </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Frame>
-
-        <Grid Margin="20" HorizontalOptions="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="95" />
-                <ColumnDefinition Width="35" />
-                <ColumnDefinition Width="95" />
-                <ColumnDefinition Width="35" />
-                <ColumnDefinition Width="95" />
-            </Grid.ColumnDefinitions>
-
-            <Button Text="Granaries" Command="{Binding ShowGranariesCommand}" Grid.Column="0" HeightRequest="50" CornerRadius="15" BorderColor="Grey" BackgroundColor="{DynamicResource PrimaryColor}"/>
-            <Button Text="Shoplist" Command="{Binding ShowShoplistCommand}" Grid.Column="2" HeightRequest="50" CornerRadius="15" BorderColor="Grey" BackgroundColor="{DynamicResource PrimaryColor}"/>
-            <Button Text="Tasks" Command="{Binding ShowTasksCommand}" Grid.Column="4"  HeightRequest="50"  CornerRadius="15"  BorderColor="Grey" BackgroundColor="{DynamicResource PrimaryColor}"/>
-        </Grid>
-
+        <Button Text="Dodaj Nowy Element" Command="{Binding AddItemCommand}" BackgroundColor="{DynamicResource PrimaryColor}"/>
     </StackLayout>
 </ContentPage>

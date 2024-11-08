@@ -20,21 +20,20 @@ namespace HomePantry.Structure.Views
         {
             base.OnAppearing();
 
-            // Odœwie¿anie listy po powrocie do widoku
             if (BindingContext is UserViewModel viewModel)
             {
-                viewModel.RefreshCurrentItemsSource(); // Wywo³aj metodê odœwie¿ania w ViewModelu
+                viewModel.RefreshCurrentItemsSource(); 
             }
         }
 
         private async void OnMoreOptionsClicked(object sender, EventArgs e)
         {
-            // Wyœwietl listê opcji w ma³ym okienku
+            
             string action = await DisplayActionSheet("Wiêcej funkcji", "Anuluj", null,
                                                      "Usuñ wszystko z widocznej listy",
                                                      "Inna opcja");
 
-            // Obs³u¿ wybran¹ opcjê
+            
             switch (action)
             {
                 case "Usuñ wszystko z widocznej listy":
@@ -42,7 +41,7 @@ namespace HomePantry.Structure.Views
                     break;
 
                 case "Inna opcja":
-                    // Dodaj dodatkow¹ funkcjê tutaj, np. await SomeOtherFunction();
+                    
                     break;
             }
         }
@@ -58,8 +57,6 @@ namespace HomePantry.Structure.Views
                 }
             }
         }
-
-
 
 
     }

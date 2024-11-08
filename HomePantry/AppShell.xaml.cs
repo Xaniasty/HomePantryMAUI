@@ -9,12 +9,15 @@ namespace HomePantry
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(FormPage), typeof(FormPage));
+            Routing.RegisterRoute(nameof(ContainerDetailsPage), typeof(ContainerDetailsPage));
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
             App.lastLoginEmail = null;
             Application.Current.MainPage = ((App)Application.Current).CreateLoginPage();
+            
+
         }
     }
 }
