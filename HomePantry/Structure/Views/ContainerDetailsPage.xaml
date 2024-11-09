@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HomePantry.Structure.Views.ContainerDetailsPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="addToList" IconImageSource="plusicon.png" Command="{Binding AddCommand}" />
-        <ToolbarItem x:Name="editFromList" IconImageSource="editicon.png" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedItem}" />
-        <ToolbarItem x:Name="delAllFromList" IconImageSource="trashbinicon.png" Text="Usuń wszystko" Command="{Binding DeleteAllVisibleCommand}" Order="Secondary" />
+        <ToolbarItem x:Name="addToList" IconImageSource="plusicon.png" Command="{Binding AddItemCommand}" />
+        <ToolbarItem x:Name="delAllFromList" IconImageSource="trashbinicon.png" Text="Usuń wszystko" Command="{Binding DeleteAllVisibleItemsCommand}" Order="Secondary" />
     </ContentPage.ToolbarItems>
 
     <StackLayout BackgroundColor="{DynamicResource SecondaryColor}">
@@ -14,9 +12,8 @@
                BackgroundColor="{DynamicResource SecondaryColor}" 
                BorderColor="{DynamicResource PrimaryColor}" 
                CornerRadius="20">
-            <CollectionView ItemsSource="{Binding ContainerItems}" SelectionMode="Single">
+            <CollectionView x:Name="CurrentItemsView" ItemsSource="{Binding ContainerItems}" SelectionMode="Single" SelectedItem="{Binding SelectedItem}">
                 <CollectionView.ItemTemplate>
-
                     <DataTemplate>
                         <SwipeView>
                             <SwipeView.RightItems>
@@ -25,8 +22,8 @@
                                         Text="Usuń" 
                                         IconImageSource="trashbinicon.png"
                                         BackgroundColor="Red" 
-                                        Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference CurrentItemsView}}" 
-                                        CommandParameter="{Binding .}" />   
+                                        Command="{Binding Path=BindingContext.DeleteItemCommand, Source={x:Reference CurrentItemsView}}" 
+                                        CommandParameter="{Binding .}" />
                                 </SwipeItems>
                             </SwipeView.RightItems>
 
@@ -36,27 +33,54 @@
                                         Text="Edytuj" 
                                         IconImageSource="openicon.png" 
                                         BackgroundColor="LightGoldenrodYellow" 
-                                        Command="{Binding Path=BindingContext.OpenContainerCommand, Source={x:Reference CurrentItemsView}}" 
-                                        CommandParameter="{Binding .}" />       
+                                        Command="{Binding Path=BindingContext.EditItemCommand, Source={x:Reference CurrentItemsView}}" 
+                                        CommandParameter="{Binding .}" />
                                 </SwipeItems>
                             </SwipeView.LeftItems>
-                            <Grid Padding="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="4" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
 
-                                <Grid Padding="10">
-                                    <Label Text="{Binding ProductName}" FontSize="20"/>
-                                    <Label Text="{Binding Description}" FontSize="14" TextColor="Gray"/>
-                                </Grid>
-                            </Grid>
+                            <!-- StackLayout dla wyświetlania szczegółowych informacji -->
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding ProductName}" 
+                                       FontSize="20" 
+                                       FontAttributes="Bold" 
+                                       Margin="0,0,0,5" />
+
+                                <Label Text="{Binding Description}" 
+                                       FontSize="14" 
+                                       TextColor="Gray" 
+                                       Margin="0,0,0,10" />
+
+                                <StackLayout Orientation="Horizontal" Spacing="20">
+                                    <Label Text="Cena:" FontSize="14" TextColor="Gray"/>
+                                    <Label Text="{Binding Cena, StringFormat='{}{0:F2} PLN'}" FontSize="14" />
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal" Spacing="20">
+                                    <Label Text="Ilość:" FontSize="14" TextColor="Gray"/>
+                                    <Label Text="{Binding Quantity}" FontSize="14" />
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal" Spacing="20">
+                                    <Label Text="Waga:" FontSize="14" TextColor="Gray"/>
+                                    <Label Text="{Binding Weight, StringFormat='{}{0} kg'}" FontSize="14" />
+                                </StackLayout>
+
+                                <!-- Data Zakupu -->
+                                <StackLayout Orientation="Horizontal" Spacing="20">
+                                    <Label Text="Data Zakupu:" FontSize="14" TextColor="Gray"/>
+                                    <Label Text="{Binding DataZakupu, StringFormat='{}{0:dd.MM.yyyy}'}" FontSize="14" />
+                                </StackLayout>
+
+                                <!-- Data Ważności -->
+                                <StackLayout Orientation="Horizontal" Spacing="20">
+                                    <Label Text="Data Ważności:" FontSize="14" TextColor="Gray"/>
+                                    <Label Text="{Binding DataWaznosci, StringFormat='{}{0:dd.MM.yyyy}'}" FontSize="14" />
+                                </StackLayout>
+                            </StackLayout>
                         </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Frame>
-        <Button Text="Dodaj Nowy Element" Command="{Binding AddItemCommand}" BackgroundColor="{DynamicResource PrimaryColor}"/>
     </StackLayout>
 </ContentPage>

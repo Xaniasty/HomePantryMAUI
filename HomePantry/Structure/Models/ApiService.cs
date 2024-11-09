@@ -250,58 +250,121 @@ public class ApiService
 
     public async Task<bool> AddProductToGranaryAsync(ProductsInGranary product, int granaryId)
     {
-        var response = await _httpClient.PostAsJsonAsync($"api/ProductsInGranary", product);
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/ProductsInGranary", product);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in AddProductToGranaryAsync: {ex.Message}");
+            return false;
+        }
     }
 
     public async Task<bool> UpdateProductInGranaryAsync(ProductsInGranary product)
     {
-        var response = await _httpClient.PutAsJsonAsync($"api/ProductsInGranary/{product.ProductId}", product);
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/ProductsInGranary/{product.ProductId}", product);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in UpdateProductInGranaryAsync: {ex.Message}");
+            return false;
+        }
     }
 
     public async Task<bool> DeleteProductFromGranaryAsync(int productId)
     {
-        var response = await _httpClient.DeleteAsync($"api/ProductsInGranary/{productId}");
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/ProductsInGranary/{productId}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in DeleteProductFromGranaryAsync: {ex.Message}");
+            return false;
+        }
     }
 
     public async Task<List<ProductsInGranary>> GetProductsInGranaryAsync(int granaryId)
     {
-        var response = await _httpClient.GetAsync($"api/ProductsInGranary/{granaryId}");
-        return response.IsSuccessStatusCode
-            ? await response.Content.ReadFromJsonAsync<List<ProductsInGranary>>()
-            : new List<ProductsInGranary>();
+        try
+        {
+            var response = await _httpClient.GetAsync($"api/ProductsInGranary/{granaryId}");
+            return response.IsSuccessStatusCode
+                ? await response.Content.ReadFromJsonAsync<List<ProductsInGranary>>()
+                : new List<ProductsInGranary>();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in GetProductsInGranaryAsync: {ex.Message}");
+            return new List<ProductsInGranary>();
+        }
     }
 
     // Metody dla Shoplist
 
     public async Task<bool> AddProductToShoplistAsync(ProductsInShoplist product, int shoplistId)
     {
-        var response = await _httpClient.PostAsJsonAsync($"api/ProductsInShoplist", product);
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/ProductsInShoplist", product);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in AddProductToShoplistAsync: {ex.Message}");
+            return false;
+        }
     }
 
     public async Task<bool> UpdateProductInShoplistAsync(ProductsInShoplist product)
     {
-        var response = await _httpClient.PutAsJsonAsync($"api/ProductsInShoplist/{product.ProductId}", product);
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/ProductsInShoplist/{product.ProductId}", product);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in UpdateProductInShoplistAsync: {ex.Message}");
+            return false;
+        }
     }
 
     public async Task<bool> DeleteProductFromShoplistAsync(int productId)
     {
-        var response = await _httpClient.DeleteAsync($"api/ProductsInShoplist/{productId}");
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/ProductsInShoplist/{productId}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in DeleteProductFromShoplistAsync: {ex.Message}");
+            return false;
+        }
     }
 
     public async Task<List<ProductsInShoplist>> GetProductsInShoplistAsync(int shoplistId)
     {
-        var response = await _httpClient.GetAsync($"api/ProductsInShoplist/{shoplistId}");
-        return response.IsSuccessStatusCode
-            ? await response.Content.ReadFromJsonAsync<List<ProductsInShoplist>>()
-            : new List<ProductsInShoplist>();
+        try
+        {
+            var response = await _httpClient.GetAsync($"api/ProductsInShoplist/{shoplistId}");
+            return response.IsSuccessStatusCode
+                ? await response.Content.ReadFromJsonAsync<List<ProductsInShoplist>>()
+                : new List<ProductsInShoplist>();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in GetProductsInShoplistAsync: {ex.Message}");
+            return new List<ProductsInShoplist>();
+        }
     }
-
 
 
 

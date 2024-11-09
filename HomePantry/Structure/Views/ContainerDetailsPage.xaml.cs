@@ -1,6 +1,7 @@
 using HomePantry.Models;
 using HomePantry.Structure.ViewModels;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace HomePantry.Structure.Views;
 
@@ -23,8 +24,10 @@ public partial class ContainerDetailsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        Debug.WriteLine($"Granary id: {GranaryId} oraz shop id: {ShoplistId}");
 
-        // Ustawienie BindingContext w zale¿noœci od parametrów granaryId lub shoplistId
+
+
         if (GranaryId != 0)
         {
             BindingContext = new ContainerDetailsViewModel(_apiService, granaryId: GranaryId);

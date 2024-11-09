@@ -3,6 +3,7 @@
              x:Class="HomePantry.Structure.Views.HomePage"
              Title="" BackgroundColor="{DynamicResource BackgroundColor}">
 
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="addToList" IconImageSource="plusicon.png" Command="{Binding AddCommand}" />
         <ToolbarItem x:Name="editFromList" IconImageSource="editicon.png" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedItem}" />
@@ -10,11 +11,15 @@
     </ContentPage.ToolbarItems>
 
     <StackLayout Padding="0" Margin="0">
-
+        <Label Text="{Binding CurrentListTitle}" 
+           FontSize="24" 
+           FontAttributes="Bold" 
+           HorizontalOptions="Center" 
+           Margin="0,20,0,10" />
         <Frame Margin="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                BackgroundColor="{DynamicResource SecondaryColor}" 
                BorderColor="{DynamicResource PrimaryColor}" 
-               CornerRadius="20"> 
+               CornerRadius="20">
             <CollectionView x:Name="CurrentItemsView" 
                     BindingContext="{Binding}" 
                     ItemsSource="{Binding CurrentItemsSource}"
