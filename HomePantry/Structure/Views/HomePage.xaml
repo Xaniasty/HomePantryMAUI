@@ -3,7 +3,7 @@
              x:Class="HomePantry.Structure.Views.HomePage"
              Title="" BackgroundColor="{DynamicResource BackgroundColor}">
 
-    
+
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="addToList" IconImageSource="plusicon.png" Command="{Binding AddCommand}" />
         <ToolbarItem x:Name="editFromList" IconImageSource="editicon.png" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedItem}" />

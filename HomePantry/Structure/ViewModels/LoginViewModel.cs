@@ -94,12 +94,16 @@ namespace HomePantry.Structure.ViewModels
             }
 
             ErrorMessage = "";
+
+            Debug.WriteLine($"Attempting login with EmailOrLogin: {EmailOrLogin}");
+
             var user = await _apiService.LoginAsync(EmailOrLogin, Password);
-            
 
             if (user != null)
             {
-                
+                Debug.WriteLine($"Login successful. User ID: {user.Id}, Login: {user.Login}");
+
+                // Zapisanie stanu "IsAccepted"
                 Preferences.Set("IsAccepted", IsAccepted);
 
                 if (IsRemembered)
@@ -110,18 +114,32 @@ namespace HomePantry.Structure.ViewModels
                 }
                 else
                 {
-                    Preferences.Set("IsRemembered", false);
-                    Preferences.Set("EmailOrLogin", string.Empty);
-                    Preferences.Set("Password", string.Empty);
+                    Preferences.Remove("IsRemembered");
+                    Preferences.Remove("EmailOrLogin");
+                    Preferences.Remove("Password");
                 }
 
+                // Ustawienie użytkownika w globalnym stanie aplikacji
                 App.user = user;
 
+                // Ustawienie ID użytkownika w globalnym stanie
+                if (user.Id.HasValue)
+                {
+                    App.CurrentUserId = user.Id.Value;
+                    Debug.WriteLine($"App.CurrentUserId set to: {App.CurrentUserId}");
+                }
+                else
+                {
+                    Debug.WriteLine("Warning: User ID is null.");
+                }
+
+                // Nawigacja do głównej części aplikacji
                 (Application.Current as App)?.NavigateToAppShell();
             }
             else
             {
                 ErrorMessage = "Błędne hasło lub login.";
+                Debug.WriteLine("Login failed: Incorrect email/login or password.");
             }
         }
 

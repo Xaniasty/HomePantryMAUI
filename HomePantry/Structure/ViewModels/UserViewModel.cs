@@ -173,7 +173,7 @@ public class UserViewModel : INotifyPropertyChanged
                 var shoplists = await _apiService.GetShoplistsForUserAsync(UserId.Value);
                 ShoplistItems = new ObservableCollection<Shoplist>(shoplists);
                 CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
-                CurrentListTitle = "Shoplist"; // Aktualizacja tytułu
+                CurrentListTitle = "Shoplists"; // Aktualizacja tytułu
                 break;
 
             case ViewType.ToDoTasks:

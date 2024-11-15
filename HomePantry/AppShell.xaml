@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:HomePantry.Structure.Views"
     x:Class="HomePantry.AppShell"
-    FlyoutBackground="{DynamicResource SecondaryColor}"
+    FlyoutBackgroundImage="homepantrylogo.png"
+    FlyoutBackground="LightGoldenrodYellow"
     Background="{DynamicResource PrimaryColor}">
 
     <Shell.Resources>
@@ -17,6 +18,14 @@
         <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
     </FlyoutItem>
 
-    <MenuItem Text="Wyloguj" Clicked="OnLogoutClicked" />
-    <MenuItem Text="Ustawienia" />
+    <FlyoutItem Title="Ustawienia" Icon="settingsicon.png">
+        <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Profil" Icon="profilepicture.png">
+        <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" />
+    </FlyoutItem>
+
+    <MenuItem Text="Wyloguj" IconImageSource="logouticon.png" Clicked="OnLogoutClicked" />
+
 </Shell>

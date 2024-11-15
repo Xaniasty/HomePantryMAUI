@@ -12,7 +12,7 @@ namespace HomePantry
             // Rejestracja tras
             Routing.RegisterRoute(nameof(FormPage), typeof(FormPage));
             Routing.RegisterRoute(nameof(ContainerDetailsPage), typeof(ContainerDetailsPage));
-            Routing.RegisterRoute(nameof(ProductDetailsPage), typeof(ProductDetailsPage)); // Dodanie ProductDetailsPage
+            Routing.RegisterRoute(nameof(ProductDetailsPage), typeof(ProductDetailsPage));
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)

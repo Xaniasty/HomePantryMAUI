@@ -1,6 +1,8 @@
+using HomePantry.Models;
 using HomePantry.Structure.ViewModels;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Maui.Controls;
+using System.Diagnostics;
 
 namespace HomePantry.Structure.Views
 {
@@ -31,9 +33,19 @@ namespace HomePantry.Structure.Views
 
         }
 
-        private async void OnLoginSuccess()
+        private async void OnLoginSuccess(User user)
         {
-            await Navigation.PushAsync(new HomePage());
+            if (user != null && user.Id > 0)
+            {
+                App.CurrentUserId = user.Id; 
+                Debug.WriteLine($"Logged in user ID: {App.CurrentUserId}");
+
+                await Navigation.PushAsync(new HomePage());
+            }
+            else
+            {
+                Debug.WriteLine("Failed to log in. User is null or ID is missing.");
+            }
         }
 
         private async void OnCreateAccountTapped(object sender, EventArgs e)

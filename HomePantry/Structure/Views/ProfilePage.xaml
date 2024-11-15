@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HomePantry.Structure.Views.ProfilePage"
+             Title="Profil Użytkownika">
+
+    <ContentPage.Content>
+        <StackLayout Padding="20" BackgroundColor="{DynamicResource SecondaryColor}">
+            <Label Text="Profil" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="10" Margin="0,20,0,0">
+                <StackLayout>
+                    <Label Text="Nazwa Użytkownika:" FontAttributes="Bold" />
+                    <Label Text="{Binding UserName}" FontSize="18" />
+
+                    <Label Text="E-mail:" FontAttributes="Bold" Margin="0,10,0,0" />
+                    <Label Text="{Binding UserEmail}" FontSize="18" />
+                </StackLayout>
+            </Frame>
+
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="10" Margin="0,20,0,0">
+                <StackLayout>
+                    <Label Text="Ilość Magazynów:" FontAttributes="Bold" />
+                    <Label Text="{Binding GranariesCount}" FontSize="18" />
+
+                    <Label Text="Ilość List Zakupów:" FontAttributes="Bold" Margin="0,10,0,0" />
+                    <Label Text="{Binding ShoplistsCount}" FontSize="18" />
+
+                    <Label Text="Ilość Produktów:" FontAttributes="Bold" Margin="0,10,0,0" />
+                    <Label Text="{Binding TotalProductsCount}" FontSize="18" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -12,8 +12,10 @@ public class ApiService
 
     public ApiService()
     {
-        HttpClientHandler handler = new HttpClientHandler();
-        handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+        HttpClientHandler handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+        };
 
         _httpClient = new HttpClient(handler)
         {
@@ -54,6 +56,35 @@ public class ApiService
             return null;
         }
     }
+
+    public async Task<User?> GetUserByIdAsync(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"api/Users/{userId}");
+            Debug.WriteLine($"Response status for GetUserByIdAsync: {response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var user = await response.Content.ReadFromJsonAsync<User>(); // Odczyt tylko raz
+                Debug.WriteLine($"User fetched: {user?.Login}");
+                return user; // Zwrot obiektu bez ponownego odczytu
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Error response: {errorContent}");
+                return null;
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"Błąd podczas pobierania danych użytkownika: {ex.Message}");
+            return null;
+        }
+    }
+
+
 
 
     public async Task<bool> CreateUserAsync(UserRegistrationRequest user)
@@ -295,9 +326,12 @@ public class ApiService
         try
         {
             var response = await _httpClient.GetAsync($"api/ProductsInGranary/{granaryId}");
-            return response.IsSuccessStatusCode
-                ? await response.Content.ReadFromJsonAsync<List<ProductsInGranary>>()
-                : new List<ProductsInGranary>();
+            if (response.IsSuccessStatusCode)
+            {
+                var products = await response.Content.ReadFromJsonAsync<List<ProductsInGranary>>();
+                return products ?? new List<ProductsInGranary>();
+            }
+            return new List<ProductsInGranary>();
         }
         catch (Exception ex)
         {
@@ -365,6 +399,8 @@ public class ApiService
             return new List<ProductsInShoplist>();
         }
     }
+
+
 
 
 

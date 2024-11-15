@@ -7,6 +7,12 @@
 
     
     <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="plflag.png"/>
+        <ToolbarItem IconImageSource="gbflag.png"/>
+        <ToolbarItem IconImageSource="deflag.png"/>
+        <ToolbarItem></ToolbarItem>
+        <ToolbarItem></ToolbarItem>
+        <ToolbarItem></ToolbarItem>
         <ToolbarItem IconImageSource="infopicture.png"
                      Clicked="OnInfoIconClicked" />
     </ContentPage.ToolbarItems>

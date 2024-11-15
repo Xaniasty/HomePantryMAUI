@@ -8,6 +8,8 @@ namespace HomePantry
     {
         public static string? lastLoginEmail { get; set; }
         public static User user { get; set; }
+        public static int? CurrentUserId { get; internal set; }
+
         public App()
         {
             InitializeComponent();

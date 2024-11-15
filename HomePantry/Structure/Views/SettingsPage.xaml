@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HomePantry.Structure.Views.SettingsPage"
+             Title="Ustawienia">
+
+    <StackLayout Padding="20" BackgroundColor="{DynamicResource SecondaryColor}">
+
+        <Label Text="Ustawienia Koloru" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource PrimaryColor}" />
+
+        <Picker Title="Wybierz Kolor Główny" ItemsSource="{Binding PrimaryColors}" SelectedItem="{Binding SelectedPrimaryColor}" />
+
+        <Picker Title="Wybierz Kolor Dodatkowy" ItemsSource="{Binding SecondaryColors}" SelectedItem="{Binding SelectedSecondaryColor}" />
+
+        <Label Text="Tryb Ciemny" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource PrimaryColor}" Margin="0,20,0,0" />
+
+        <Switch IsToggled="{Binding IsDarkModeEnabled}" />
+
+    </StackLayout>
+</ContentPage>
