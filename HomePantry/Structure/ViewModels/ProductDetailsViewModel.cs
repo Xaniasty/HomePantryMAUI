@@ -12,8 +12,6 @@ namespace HomePantry.Structure.ViewModels
     {
         private readonly ApiService _apiService;
         private bool _isEditMode;
-
-        // Zdefiniowanie modelu produktu dla Granary lub Shoplist
         public ProductsInGranary GranaryProduct { get; private set; }
         public ProductsInShoplist ShoplistProduct { get; private set; }
         public bool IsGranaryProduct => GranaryProduct != null;
@@ -69,7 +67,6 @@ namespace HomePantry.Structure.ViewModels
                     ShoplistProduct.DataZakupu = DateOnly.FromDateTime(DateTime.Today);
             }
 
-            // Inicjalizacja komendy zapisu
             SaveCommand = new Command(async () => await SaveProductAsync());
         }
 
@@ -91,7 +88,7 @@ namespace HomePantry.Structure.ViewModels
                     : await _apiService.AddProductToShoplistAsync(ShoplistProduct, ShoplistProduct.ShoplistId);
             }
 
-            // Powrót do poprzedniej strony po zapisie
+
             if (success)
             {
                 await Shell.Current.GoToAsync("..");
@@ -200,7 +197,6 @@ namespace HomePantry.Structure.ViewModels
             }
         }
 
-        // Obsługa zdarzenia PropertyChanged dla powiadamiania o zmianach w widoku
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName = null)
         {

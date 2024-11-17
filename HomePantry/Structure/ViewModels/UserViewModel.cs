@@ -122,39 +122,17 @@ public class UserViewModel : INotifyPropertyChanged
     {
         if (container is Granary granary)
         {
-            // Nawigacja do ContainerDetailsPage dla Granary
+  
             await Shell.Current.GoToAsync($"{nameof(ContainerDetailsPage)}?granaryId={granary.Id}");
         }
         else if (container is Shoplist shoplist)
         {
-            // Nawigacja do ContainerDetailsPage dla Shoplist
+ 
             await Shell.Current.GoToAsync($"{nameof(ContainerDetailsPage)}?shoplistId={shoplist.Id}");
         }
     }
 
-    //private async void LoadItems(ViewType viewType)
-    //{
-    //    CurrentViewType = viewType;
-
-    //    if (viewType == ViewType.Granary)
-    //    {
-    //        var granaries = await _apiService.GetGranariesForUserAsync(UserId.Value);
-    //        GranariesItems = new ObservableCollection<Granary>(granaries);
-    //        CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
-    //        CurrentListTitle = "Granaries";
-    //    }
-    //    else if (viewType == ViewType.Shoplist)
-    //    {
-    //        var shoplists = await _apiService.GetShoplistsForUserAsync(UserId.Value);
-    //        ShoplistItems = new ObservableCollection<Shoplist>(shoplists);
-    //        CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
-    //        CurrentListTitle = "Shoplist";
-    //    }
-    //    else
-    //    {
-    //        CurrentListTitle = "ToDoList";
-    //    }
-    //}
+    
 
     private async void LoadItems(ViewType viewType)
     {
@@ -166,19 +144,19 @@ public class UserViewModel : INotifyPropertyChanged
                 var granaries = await _apiService.GetGranariesForUserAsync(UserId.Value);
                 GranariesItems = new ObservableCollection<Granary>(granaries);
                 CurrentItemsSource = GranariesItems.Cast<IDisplayContainers>();
-                CurrentListTitle = "Granaries"; // Aktualizacja tytułu
+                CurrentListTitle = "Granaries"; 
                 break;
 
             case ViewType.Shoplist:
                 var shoplists = await _apiService.GetShoplistsForUserAsync(UserId.Value);
                 ShoplistItems = new ObservableCollection<Shoplist>(shoplists);
                 CurrentItemsSource = ShoplistItems.Cast<IDisplayContainers>();
-                CurrentListTitle = "Shoplists"; // Aktualizacja tytułu
+                CurrentListTitle = "Shoplists"; 
                 break;
 
             case ViewType.ToDoTasks:
                 LoadTasks();
-                CurrentListTitle = "Tasks"; // Aktualizacja tytułu
+                CurrentListTitle = "Tasks";
                 break;
         }
     }

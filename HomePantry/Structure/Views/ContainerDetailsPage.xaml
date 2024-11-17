@@ -5,6 +5,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="addToList" IconImageSource="plusicon.png" Command="{Binding AddItemCommand}" />
         <ToolbarItem x:Name="delAllFromList" IconImageSource="trashbinicon.png" Text="Usuń wszystko" Command="{Binding DeleteAllVisibleItemsCommand}" Order="Secondary" />
+        <ToolbarItem x:Name="newContainerFromThisContainr" IconImageSource="plusicon.png" Text="{Binding ActionButtonText}" Command="{Binding ActionButtonCommand}" Order="Secondary" />
     </ContentPage.ToolbarItems>
 
     <StackLayout BackgroundColor="{DynamicResource SecondaryColor}">

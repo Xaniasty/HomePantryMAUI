@@ -71,7 +71,7 @@ public class FormViewModel : INotifyPropertyChanged
             Debug.WriteLine($"Update result for Shoplist: {result}");
         }
 
-        await Shell.Current.GoToAsync(".."); // Powrót po zapisaniu
+        await Shell.Current.GoToAsync(".."); 
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

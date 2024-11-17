@@ -9,7 +9,6 @@ namespace HomePantry
         {
             InitializeComponent();
 
-            // Rejestracja tras
             Routing.RegisterRoute(nameof(FormPage), typeof(FormPage));
             Routing.RegisterRoute(nameof(ContainerDetailsPage), typeof(ContainerDetailsPage));
             Routing.RegisterRoute(nameof(ProductDetailsPage), typeof(ProductDetailsPage));

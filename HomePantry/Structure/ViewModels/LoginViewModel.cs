@@ -103,7 +103,7 @@ namespace HomePantry.Structure.ViewModels
             {
                 Debug.WriteLine($"Login successful. User ID: {user.Id}, Login: {user.Login}");
 
-                // Zapisanie stanu "IsAccepted"
+
                 Preferences.Set("IsAccepted", IsAccepted);
 
                 if (IsRemembered)
@@ -119,10 +119,10 @@ namespace HomePantry.Structure.ViewModels
                     Preferences.Remove("Password");
                 }
 
-                // Ustawienie użytkownika w globalnym stanie aplikacji
+      
                 App.user = user;
 
-                // Ustawienie ID użytkownika w globalnym stanie
+          
                 if (user.Id.HasValue)
                 {
                     App.CurrentUserId = user.Id.Value;
@@ -133,7 +133,7 @@ namespace HomePantry.Structure.ViewModels
                     Debug.WriteLine("Warning: User ID is null.");
                 }
 
-                // Nawigacja do głównej części aplikacji
+       
                 (Application.Current as App)?.NavigateToAppShell();
             }
             else

@@ -66,9 +66,9 @@ public class ApiService
 
             if (response.IsSuccessStatusCode)
             {
-                var user = await response.Content.ReadFromJsonAsync<User>(); // Odczyt tylko raz
+                var user = await response.Content.ReadFromJsonAsync<User>();
                 Debug.WriteLine($"User fetched: {user?.Login}");
-                return user; // Zwrot obiektu bez ponownego odczytu
+                return user; 
             }
             else
             {
@@ -400,7 +400,37 @@ public class ApiService
         }
     }
 
+    public async Task<Granary?> CreateGranaryFromShoplistAsync(int shoplistId, int userId)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsync($"api/Granary/CreateFromShoplist/user/{userId}/{shoplistId}", null);
+            return response.IsSuccessStatusCode
+                ? await response.Content.ReadFromJsonAsync<Granary>()
+                : null;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in CreateGranaryFromShoplistAsync: {ex.Message}");
+            return null;
+        }
+    }
 
+    public async Task<Shoplist?> CreateShoplistFromGranaryAsync(int granaryId, int userId)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsync($"api/Shoplist/CreateShoplistFromGranary/user/{userId}/{granaryId}", null);
+            return response.IsSuccessStatusCode
+                ? await response.Content.ReadFromJsonAsync<Shoplist>()
+                : null;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in CreateShoplistFromGranaryAsync: {ex.Message}");
+            return null;
+        }
+    }
 
 
 

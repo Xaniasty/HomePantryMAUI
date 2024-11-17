@@ -23,15 +23,15 @@ namespace HomePantry.Structure.Views
             {
                 try
                 {
-                    // Sprawdzanie typu produktu na podstawie pewnej w³aœciwoœci, np. GranaryId lub ShoplistId
+                  
                     var productJson = Uri.UnescapeDataString(value);
 
                     IProduct product;
-                    if (productJson.Contains("\"GranaryId\"")) // Jeœli json zawiera "GranaryId", przyjmujemy, ¿e to produkt z Granary
+                    if (productJson.Contains("\"GranaryId\"")) 
                     {
                         product = JsonConvert.DeserializeObject<ProductsInGranary>(productJson);
                     }
-                    else if (productJson.Contains("\"ShoplistId\"")) // Jeœli json zawiera "ShoplistId", przyjmujemy, ¿e to produkt z Shoplist
+                    else if (productJson.Contains("\"ShoplistId\"")) 
                     {
                         product = JsonConvert.DeserializeObject<ProductsInShoplist>(productJson);
                     }

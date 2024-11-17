@@ -14,11 +14,11 @@ public partial class ContainerDetailsPage : ContentPage
     public int GranaryId { get; set; }
     public int ShoplistId { get; set; }
 
-    // Konstruktor bezparametrowy wymagany przez Shell
+   
     public ContainerDetailsPage()
     {
         InitializeComponent();
-        _apiService = new ApiService(); // Inicjalizacja ApiService
+        _apiService = new ApiService(); 
     }
 
     protected override void OnAppearing()
